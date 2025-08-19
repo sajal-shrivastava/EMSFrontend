@@ -1,12 +1,38 @@
-# React + Vite
+# Employee Management System Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a React-based frontend for the Employee Management System (EMS). It allows users to register, display, edit, and manage employee records. The app communicates with a backend API for CRUD operations.
 
-Currently, two official plugins are available:
+## Features
+- Register new employees
+- Display all employees
+- Edit employee details
+- Delete employees
+- Navigation using React Router
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
+- React (with Vite)
+- React Router DOM
+- Axios
+- JavaScript (ES6+)
 
-## Expanding the ESLint configuration
+## Setup & Run
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+2. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
+3. **Open the app:**
+   Visit [http://localhost:5173](http://localhost:5173) in your browser.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## API Configuration
+- The frontend expects the backend API to be running at `http://localhost:8080/api/employee`.
+- Update the base URL in `src/service/employeeService.js` if your backend runs elsewhere.
+
+## Available Scripts
+- `npm run dev` — Start the development server
+- `npm run build` — Build for production
+- `npm run preview` — Preview the production build
+
