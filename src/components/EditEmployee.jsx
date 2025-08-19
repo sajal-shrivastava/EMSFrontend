@@ -54,7 +54,7 @@ export default function EditEmployee() {
         <form onSubmit={handleSubmit}> 
           <label>
             ID:
-            <input onChange = {handleChange} value={employeeDetails.emplId} type="number" name="emplId" />
+            <input value={employeeDetails.emplId} type="number" name="emplId" readOnly/>
           </label>
           <br />
           <label>
