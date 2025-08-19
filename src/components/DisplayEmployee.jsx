@@ -54,14 +54,19 @@ const navigate = useNavigate();
 
   
   return (
+    <>
+    <h2>Employee List</h2>
     <div>
-      <h2>Employee List</h2>
       <select onChange={handleLocationChange} value={selectLocation}>
         <option value="">Select Location</option>
         {[...uniqueLocations].map(location => (
           <option key={location} value={location}>{location}</option>
         ))}
       </select>
+    </div>
+     <div>
+      
+      
       <table border="1" cellPadding="8">
         <thead>
           <tr>
@@ -80,7 +85,7 @@ const navigate = useNavigate();
               <td>{emp.lastName}</td>
               <td>{emp.location}</td>
                 <td>
-                    <button onClick={() => handleEdit(emp.emplId)}>Edit</button>
+                    <button onClick={() => handleEdit(emp.emplId)} style={{ marginRight: '10px' }}>Edit</button>
                     <button onClick={() => handleDelete(emp.emplId)}>Delete</button>  
                 </td>
             </tr>
@@ -88,6 +93,7 @@ const navigate = useNavigate();
         </tbody>
       </table>
     </div>
+    </>
   );
 };
 

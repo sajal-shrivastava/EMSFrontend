@@ -6,7 +6,9 @@ export default function HomePage() {
 
   return (
     <>
-      <button onClick={() => navigate('/register')}>Register Employee</button>
+      <h1>Welcome to Employee Management System</h1>
+      <p>Please choose an option:</p>
+      <button onClick={() => navigate('/register')} style={{ marginRight: '10px' }}>Register Employee</button>
       <button onClick={() => navigate('/display')}>Display Employee</button>
     </>
   );

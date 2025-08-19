@@ -22,6 +22,12 @@ export default function EmployeeRegistration() {
         createEmployee(employeeDetails)
             .then(response => {
                 alert('Employee created successfully:');
+                setEmployeeDetails({
+            emplId: '',
+            firstName: '',
+            lastName: '',
+            location: ''
+        });
             })
             .catch(error => {
               if(error.response && error.response.status === 400) {
@@ -30,13 +36,10 @@ export default function EmployeeRegistration() {
                 alert('There was an error creating the employee');
               }
             });
-    
-        setEmployeeDetails({
-            emplId: '',
-            firstName: '',
-            lastName: '',
-            location: ''
-        });
+    };
+
+    const handleBack = () => {
+        window.history.back();
     };
 
   return (
@@ -65,6 +68,7 @@ export default function EmployeeRegistration() {
         <br />
         <button type="submit">Register</button>
       </form>
+      <button onClick={handleBack}>Back to home</button>
     </div>
   );
 }
