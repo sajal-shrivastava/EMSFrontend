@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
-import { getEmployees, deleteEmployee } from '../service/employeeService';
+import { getEmployeesPaginated, deleteEmployee } from '../service/employeeService';
 import { useNavigate } from 'react-router-dom';
 
 const DisplayEmployee = () => {
@@ -8,23 +7,27 @@ const DisplayEmployee = () => {
   const[uniqueLocations, setUniqueLocations] = useState(new Set());
 const [selectLocation, setSelectLocation] = useState('');
 const[filteredEmployees, setFilteredEmployees] = useState([]);
+const [page, setPage] = useState(0); 
+const [size, setSize] = useState(5);
+const [totalPages, setTotalPages] = useState(1);
 const navigate = useNavigate();
   
-  const fetchEmployees = async () => {
-      try {
-        const response = await getEmployees();
-        const employeesData = response.data;
-        setUniqueLocations(new Set(employeesData.map(emp => emp.location.toUpperCase())));
-        setEmployees(employeesData);
-        setFilteredEmployees(employeesData);
-      } catch (err) {
-        alert('Failed to fetch employees');
-      } 
-    };
+const fetchEmployees = async (pageNum = page, pageSize = size) => {
+  try {
+    const response = await getEmployeesPaginated(pageNum, pageSize);
+    const employeesData = response.data.content;
+    setUniqueLocations(new Set(employeesData.map(emp => emp.location.toUpperCase())));
+    setEmployees(employeesData); 
+    setFilteredEmployees(employeesData);
+    setTotalPages(response.data.totalPages);
+  } catch (err) {
+    alert('Failed to fetch employees');
+  }
+};
 
   useEffect(() => {
-    fetchEmployees();
-  }, []);
+    fetchEmployees(page, size);
+  }, [page, size]);
 
   const handleLocationChange = (e) => {
     const selectedLocation = e.target.value;
@@ -52,6 +55,10 @@ const navigate = useNavigate();
        navigate(`/edit/${id}`);
     }
 
+    const handlePageChange = (newPage) => {
+      setPage(newPage);
+      fetchEmployees(newPage, size);
+    };
   
   return (
     <>
@@ -93,6 +100,11 @@ const navigate = useNavigate();
         </tbody>
       </table>
     </div>
+    <div>
+  <button onClick={() => handlePageChange(page - 1)} disabled={page === 0}>Previous</button>
+  <span> Page {page + 1} of {totalPages} </span>
+  <button onClick={() => handlePageChange(page + 1)} disabled={page + 1 >= totalPages}>Next</button>
+</div>
     </>
   );
 };

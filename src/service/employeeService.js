@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:8080/api/employee';
@@ -10,6 +9,10 @@ export const createEmployee = async (employeeData) => {
 
 export const getEmployees = async () => {
   return axios.get(BASE_URL);
+};
+
+export const getEmployeesPaginated = async (page, size) => {
+  return axios.get(`${BASE_URL}/page?page=${page}&size=${size}`);
 };
 
 export const getEmployeeById = async (id) => {
