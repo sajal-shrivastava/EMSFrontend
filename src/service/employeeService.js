@@ -11,7 +11,11 @@ export const getEmployees = async () => {
   return axios.get(BASE_URL);
 };
 
-export const getEmployeesPaginated = async (page, size) => {
+export const getEmployeesPaginated = async (page, size, location) => {
+  console.log(`Fetching employees for page: ${page}, size: ${size}, location: ${location}`);
+  if (location !== undefined && location !== '') {
+    return axios.get(`${BASE_URL}/page?page=${page}&size=${size}&location=${location}`);
+  }
   return axios.get(`${BASE_URL}/page?page=${page}&size=${size}`);
 };
 
@@ -26,3 +30,7 @@ export const updateEmployee = async (employeeData) => {
 export const deleteEmployee = async (id) => {
   return axios.delete(`${BASE_URL}/${id}`);
 };
+
+export const getUniqueLocations = async () => {
+  return axios.get(`${BASE_URL}/locations`);
+}

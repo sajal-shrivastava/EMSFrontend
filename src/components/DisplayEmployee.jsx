@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { getEmployeesPaginated, deleteEmployee } from '../service/employeeService';
+import React, {  useEffect, useState } from 'react';
+import { getEmployeesPaginated, deleteEmployee, getUniqueLocations } from '../service/employeeService';
 import { useNavigate } from 'react-router-dom';
 
 const DisplayEmployee = () => {
@@ -16,7 +16,6 @@ const fetchEmployees = async (pageNum = page, pageSize = size) => {
   try {
     const response = await getEmployeesPaginated(pageNum, pageSize);
     const employeesData = response.data.content;
-    setUniqueLocations(new Set(employeesData.map(emp => emp.location.toUpperCase())));
     setEmployees(employeesData); 
     setFilteredEmployees(employeesData);
     setTotalPages(response.data.totalPages);
@@ -25,18 +24,49 @@ const fetchEmployees = async (pageNum = page, pageSize = size) => {
   }
 };
 
+const fetchEmployeesFiltration = async (pageNum = page, pageSize = size, location = location) => {
+  try {
+    const response = await getEmployeesPaginated(pageNum, pageSize,location);
+    const employeesData = response.data.content;
+    setFilteredEmployees(employeesData);
+    setTotalPages(response.data.totalPages);
+  } catch (err) {
+    alert('Failed to fetch employees');
+  }
+};
+
+const fetchUniqueLocations = async () => {
+  try {
+    const response = await getUniqueLocations();
+    setUniqueLocations(new Set(response.data));
+  } catch (err) {
+    alert('Failed to fetch unique locations');
+  }
+};
+
+useEffect(() => {
+  fetchUniqueLocations();
+}, []);
+
   useEffect(() => {
+    if(selectLocation) {
+      fetchEmployeesFiltration(page, size, selectLocation);
+    } else {  
     fetchEmployees(page, size);
+  }
   }, [page, size]);
 
   const handleLocationChange = (e) => {
     const selectedLocation = e.target.value;
     setSelectLocation(selectedLocation);
     if (selectedLocation) {
-      const filtered = employees.filter(emp => emp.location.toLowerCase() === selectedLocation.toLowerCase());
-      setFilteredEmployees(filtered);
+      setPage(0);
+      setSize(5);
+      fetchEmployeesFiltration(page, size, selectedLocation);
     } else {
-      setFilteredEmployees(employees);
+      setPage(0);
+      setSize(5);
+      fetchEmployees(page,size);
     }
   };
 
@@ -57,7 +87,12 @@ const fetchEmployees = async (pageNum = page, pageSize = size) => {
 
     const handlePageChange = (newPage) => {
       setPage(newPage);
-      fetchEmployees(newPage, size);
+      if (selectLocation) {
+        fetchEmployeesFiltration(newPage, size, selectLocation);
+      }
+      else {
+        fetchEmployees(newPage, size);
+      }   
     };
   
   return (
