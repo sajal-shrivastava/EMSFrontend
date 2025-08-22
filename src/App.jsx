@@ -6,6 +6,10 @@ import './App.css';
 import DisplayEmployee from './components/DisplayEmployee';
 import EditEmployeeComponent from './components/EditEmployee';
 import EditEmployee from './components/EditEmployee';
+import 'primereact/resources/themes/lara-light-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import 'primeflex/primeflex.css';
 
 function App() {
   return (

@@ -1,5 +1,9 @@
 import React from 'react';
 import { createEmployee } from '../service/employeeService';
+import { Card } from 'primereact/card';
+import { InputText } from 'primereact/inputtext';
+import { InputNumber } from 'primereact/inputnumber';
+        
 
 export default function EmployeeRegistration() {
     const [employeeDetails, setEmployeeDetails] = React.useState({
@@ -9,7 +13,8 @@ export default function EmployeeRegistration() {
         location: ''
     });
     const handleChange = (e) => {
-        const { name, value } = e.target;
+      console.log('Input changed:', e.target.name, e.target.value);
+        const [name, value] = [e.target.name, e.target.value];
         setEmployeeDetails({
             ...employeeDetails,
             [name]: value
@@ -18,7 +23,6 @@ export default function EmployeeRegistration() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Employee Registered:', employeeDetails);
         createEmployee(employeeDetails)
             .then(response => {
                 alert('Employee created successfully:');
@@ -43,33 +47,16 @@ export default function EmployeeRegistration() {
     };
 
   return (
-    <div>
-      <h1>Employee Registration</h1>
+    <Card title="Employee Registration" style={{ width: '50%', margin: '0 auto', marginTop: '50px', padding: '20px' }}>
       <form onSubmit={handleSubmit}> 
-        <label>
-          ID:
-          <input onChange = {handleChange} value={employeeDetails.emplId} type="number" name="emplId" />
-        </label>
-        <br />
-        <label>
-          First Name:
-          <input onChange = {handleChange} value={employeeDetails.firstName}  type="text" name="firstName" />
-        </label>
-        <br />
-        <label>
-         Last Name:
-          <input onChange = {handleChange} value={employeeDetails.lastName}  type="text" name="lastName" />
-        </label>
-        <br />
-        <label>
-          Location
-          <input  onChange = {handleChange} value={employeeDetails.location} type="text" name="location" />
-        </label>
-        <br />
-        <button type="submit">Register</button>
+          <InputNumber name="emplId" value={employeeDetails.emplId} onValueChange={handleChange} placeholder="Enter Employee ID" className="w-full"  style={{marginBottom : '25px'}}/>
+          <InputText name="firstName" value={employeeDetails.firstName}  onChange={handleChange} placeholder="Enter First Name" className="w-full" style={{marginBottom : '25px'}} />
+          <InputText name="lastName"  value={employeeDetails.lastName} onChange={handleChange} placeholder="Enter Last Name" className="w-full" style={{marginBottom : '25px'}}/>
+          <InputText name="location"  value={employeeDetails.location} onChange={handleChange} placeholder="Enter Location" className="w-full" style={{marginBottom : '25px'}}/>
+        <button type="submit" className="p-button p-component p-mb-2" style={{marginBottom : '25px'}}>Register</button>
       </form>
-      <button onClick={handleBack}>Back to home</button>
-    </div>
+      <button onClick={handleBack} className="p-button p-button-secondary ">Back to home</button>
+    </Card>
   );
 }
 
